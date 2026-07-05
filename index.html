@@ -23,13 +23,15 @@
   <script>
     const GAS_URL = "https://script.google.com/macros/s/AKfycbyA6TugQN40puGFgwN2SW8tCU7bm5j3XvIMWIt2fRWHn6V5M_02dFF7wJuXy8MUv8eghw/exec"; 
 
-    // ดึงความจำจากตู้เซฟ GitHub
+    // 1. ดึงความจำจากตู้เซฟ GitHub ในเครื่อง
     let savedBranch = localStorage.getItem('hub_branch') || '';
     let savedShop = localStorage.getItem('hub_shop') || '';
     let savedStaff = localStorage.getItem('hub_staff') || '';
-    let savedReg = localStorage.getItem('hub_reg') || '';
+    
+    // ตรรกะล็อก: ถ้าเครื่องเคยลงทะเบียนสาขาสำเร็จแล้ว ให้ถือว่าเป็นเครื่องที่ Reg แล้วทันที
+    let savedReg = savedBranch ? 'true' : ''; 
 
-    // แนบความจำส่งให้ Google
+    // 2. แนบความจำส่งให้ Google
     let finalUrl = GAS_URL + "?v=" + Date.now();
     if (savedBranch) finalUrl += "&branch=" + encodeURIComponent(savedBranch);
     if (savedShop) finalUrl += "&shop=" + encodeURIComponent(savedShop);
@@ -38,16 +40,25 @@
 
     document.getElementById('app-frame').src = finalUrl;
 
-    // รับคำสั่งเซฟความจำจาก Google
+    // 3. รับคำสั่งเซฟความจำจากหน้าภายใน (F-16 Hub)
     window.addEventListener('message', function(event) {
       if (event.data) {
+        // เมื่อมีการส่งข้อมูลมาบันทึก (ตอนลงทะเบียนเครื่อง หรือตอนพนักงาน Login สำเร็จ)
         if (event.data.action === 'save_all') {
-          localStorage.setItem('hub_branch', event.data.branch);
-          localStorage.setItem('hub_shop', event.data.shop);
-          localStorage.setItem('hub_staff', event.data.staff);
-          localStorage.setItem('hub_reg', 'true');
-        } else if (event.data.action === 'logout_staff') {
-          localStorage.removeItem('hub_staff');
+          if (event.data.branch) localStorage.setItem('hub_branch', event.data.branch);
+          if (event.data.shop) localStorage.setItem('hub_shop', event.data.shop);
+          
+          if (event.data.staff !== undefined) {
+            if (event.data.staff === "") {
+              localStorage.removeItem('hub_staff'); // เคลียร์พนักงานออกถ้าส่งค่าว่างมา
+            } else {
+              localStorage.setItem('hub_staff', event.data.staff);
+            }
+          }
+        } 
+        // เมื่อพนักงานกดปุ่ม LOG OUT ข้ามกะ
+        else if (event.data.action === 'logout_staff') {
+          localStorage.removeItem('hub_staff'); // ลบเฉพาะรหัสพนักงาน เพื่อให้หน้าจอเด้งกลับไปถามรหัสพนักงานใหม่ของสาขาเดิม
         }
       }
     });
