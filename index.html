@@ -2,63 +2,76 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <title>F-16 Zebra</title>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>F16-Ceb</title>
+
+  <!-- 🚀 PWA Settings: บังคับหน้าจอ Standalone โหลดเป็นแอปมือถือ 100% ซ่อน URL -->
+  <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIkYxNi1DZWIiLAogICJzaG9ydF9uYW1lIjogIkYxNi1DZWIiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2YyZjJmNyIsCiAgInRoZW1lX2NvbG9yIjogIiMwMDcxZTMiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8yODAwLzI4MDAyNTgucG5nIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9CiAgXQp9">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="F-16 Hub">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#0071e3">
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2800/2800258.png">
 
-  <meta name="theme-color" content="#f5f5f7">
-  <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiRi0xNiBIdWIiLCJzaG9ydF9uYW1lIjoiRi0xNiBIdWIiLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3ciOiIjZjVmNWY3IiwidGhlbWVfY29sb3ciOiIjMDA3MWUzIn0=">
-
   <style>
-    body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #f5f5f7; }
-    iframe { width: 100%; height: 100%; border: none; display: block; }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      width: 100vw; height: 100vh;
+      background-color: #f2f2f7;
+      overflow: hidden;
+      font-family: -apple-system, Roboto, sans-serif;
+    }
+    /* ปลดล็อกให้ไอเฟรมเต็มจอ */
+    iframe {
+      width: 100% !important;
+      height: 100% !important;
+      border: none !important;
+      display: block !important;
+    }
   </style>
 </head>
 <body>
-  <iframe id="app-frame" allow="fullscreen"></iframe>
+
+  <!-- ดึงระบบหลัก Apps Script มาแสดงแบบเต็มจอ -->
+  <iframe id="app-frame" allow="autoplay; camera; focus-without-user-activation"></iframe>
+
   <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycby4LshWMWz-gamwl0KMCkglLnof828KXhusLHQZXWvk-0eQFT_FX3iwey_dN-YUetcO/exec"; 
+    // 🔴 ลิงก์ระบบหลักที่คุณส่งมา
+    const GAS_EXEC_URL = "https://script.google.com/macros/s/AKfycby-ApQEa-dgWIjg0KLVhQXV3PNVDk_flR4QeQgQiAenW7xoPe75M_HJhMPdj9gGftp0xg/exec";
 
-    // 1. ดึงความจำจากตู้เซฟ GitHub ในเครื่อง
-    let savedBranch = localStorage.getItem('hub_branch') || '';
-    let savedShop = localStorage.getItem('hub_shop') || '';
-    let savedStaff = localStorage.getItem('hub_staff') || '';
-    
-    // ตรรกะล็อก: ถ้าเครื่องเคยลงทะเบียนสาขาสำเร็จแล้ว ให้ถือว่าเป็นเครื่องที่ Reg แล้วทันที
-    let savedReg = savedBranch ? 'true' : ''; 
+    window.onload = function() {
+      loadApp();
+    };
 
-    // 2. แนบความจำส่งให้ Google
-    let finalUrl = GAS_URL + "?v=" + Date.now();
-    if (savedBranch) finalUrl += "&branch=" + encodeURIComponent(savedBranch);
-    if (savedShop) finalUrl += "&shop=" + encodeURIComponent(savedShop);
-    if (savedStaff) finalUrl += "&staff=" + encodeURIComponent(savedStaff);
-    if (savedReg) finalUrl += "&reg=" + encodeURIComponent(savedReg);
+    function loadApp() {
+      // ดึงข้อมูลสาขาที่เคยลงทะเบียนเครื่องไว้
+      let savedBranch = localStorage.getItem("f16_device_branch");
+      let savedStaff = localStorage.getItem("f16_device_staff");
 
-    document.getElementById('app-frame').src = finalUrl;
+      let targetUrl = GAS_EXEC_URL;
+      let connector = targetUrl.includes('?') ? '&' : '?';
 
-    // 3. รับคำสั่งเซฟความจำจากหน้าภายใน (F-16 Hub)
-    window.addEventListener('message', function(event) {
-      if (event.data) {
-        // เมื่อมีการส่งข้อมูลมาบันทึก (ตอนลงทะเบียนเครื่อง หรือตอนพนักงาน Login สำเร็จ)
-        if (event.data.action === 'save_all') {
-          if (event.data.branch) localStorage.setItem('hub_branch', event.data.branch);
-          if (event.data.shop) localStorage.setItem('hub_shop', event.data.shop);
-          
-          if (event.data.staff !== undefined) {
-            if (event.data.staff === "") {
-              localStorage.removeItem('hub_staff'); // เคลียร์พนักงานออกถ้าส่งค่าว่างมา
-            } else {
-              localStorage.setItem('hub_staff', event.data.staff);
-            }
-          }
-        } 
-        // เมื่อพนักงานกดปุ่ม LOG OUT ข้ามกะ
-        else if (event.data.action === 'logout_staff') {
-          localStorage.removeItem('hub_staff'); // ลบเฉพาะรหัสพนักงาน เพื่อให้หน้าจอเด้งกลับไปถามรหัสพนักงานใหม่ของสาขาเดิม
+      if (savedBranch) {
+        // หากเคยลงทะเบียนแล้ว ให้ข้ามหน้าเลือกสาขาอัตโนมัติ
+        targetUrl += connector + "reg=true&branch=" + encodeURIComponent(savedBranch);
+        if (savedStaff) {
+          targetUrl += "&staff=" + encodeURIComponent(savedStaff);
+        }
+      }
+
+      document.getElementById("app-frame").src = targetUrl + connector + "_nocache=" + Date.now();
+    }
+
+    // 🟢 ระบบรับคำสั่งจำค่าจาก Google Apps Script
+    window.addEventListener("message", function(event) {
+      if (event.data && event.data.action) {
+        if (event.data.action === "save_all") {
+          if (event.data.branch) localStorage.setItem("f16_device_branch", event.data.branch);
+          if (event.data.staff) localStorage.setItem("f16_device_staff", event.data.staff);
+        } else if (event.data.action === "logout_staff") {
+          localStorage.removeItem("f16_device_staff");
+          loadApp(); // รีเฟรชหน้าจอกลับไปรอรับรหัสพนักงานใหม่
         }
       }
     });
