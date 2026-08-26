@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>AB-AE</title>
+  <title>แอ๊บแอ้</title>
 
-  <!-- 🚀 PWA Settings: บังคับชื่อแอปเป็น AB-AE บน Android (Manifest Base64) -->
-  <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIkFCLUFFIiwKICAic2hvcnRfbmFtZSI6ICJBQi1BRSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZjJmMmY3IiwKICAidGhlbWVfY29sb3IiOiAiIzAwNzFlMyIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vY2RuLWljb25zLXBuZy5mbGF0aWNvbi5jb20vNTEyLzI4MDAvMjgwMDI1OC5wbmciLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
+  <!-- 🇹🇭 ตั้งค่า Open Graph ให้ iOS Share Sheet อ่านชื่อเป็นภาษาไทย -->
+  <meta property="og:title" content="แอ๊บแอ้">
+  <meta property="og:site_name" content="แอ๊บแอ้">
+  <meta name="title" content="แอ๊บแอ้">
+
+  <!-- 🚀 PWA Settings: บังคับชื่อแอปเป็น แอ๊บแอ้ บน Android (Manifest Base64) -->
+  <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIiBHMOC4qOC5gOC4uOC4uiIsCiAgInNob3J0X25hbWUiOiAiIOC4qOC5gOC4uOC4uiIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZjJmMmY3IiwKICAidGhlbWVfY29sb3IiOiAiIzAwNzFlMyIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vY2RuLWljb25zLXBuZy5mbGF0aWNvbi5jb20vNTEyLzI4MDAvMjgwMDI1OC5wbmciLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   
-  <!-- 🍎 บังคับชื่อแอปเป็น AB-AE บน iOS (iPhone/iPad) -->
-  <meta name="apple-mobile-web-app-title" content="AB-AE">
+  <!-- 🍎 บังคับชื่อแอปเป็น แอ๊บแอ้ บน iOS (iPhone/iPad) -->
+  <meta name="apple-mobile-web-app-title" content="แอ๊บแอ้">
   
   <meta name="theme-color" content="#0071e3">
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2800/2800258.png">
@@ -41,9 +46,10 @@
   <script>
     const GAS_EXEC_URL = "https://script.google.com/macros/s/AKfycby-ApQEa-dgWIjg0KLVhQXV3PNVDk_flR4QeQgQiAenW7xoPe75M_HJhMPdj9gGftp0xg/exec";
 
-    // 🔒 บังคับตั้งชื่อ Title หน้าเว็บทุกๆ 1 วินาที เพื่อป้องกันไม่ให้ iframe เปลี่ยนชื่อแท็บเป็นตัวอื่น
+    // 🔒 ล็อคชื่อ Title ให้เป็นภาษาไทยตลอดเวลา
+    document.title = "แอ๊บแอ้";
     setInterval(function() {
-      document.title = "AB-AE";
+      document.title = "แอ๊บแอ้";
     }, 1000);
 
     window.onload = function() {
