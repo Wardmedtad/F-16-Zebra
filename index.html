@@ -41,6 +41,11 @@
   <script>
     const GAS_EXEC_URL = "https://script.google.com/macros/s/AKfycby-ApQEa-dgWIjg0KLVhQXV3PNVDk_flR4QeQgQiAenW7xoPe75M_HJhMPdj9gGftp0xg/exec";
 
+    // 🔒 บังคับตั้งชื่อ Title หน้าเว็บทุกๆ 1 วินาที เพื่อป้องกันไม่ให้ iframe เปลี่ยนชื่อแท็บเป็นตัวอื่น
+    setInterval(function() {
+      document.title = "AB-AE";
+    }, 1000);
+
     window.onload = function() {
       loadApp();
     };
