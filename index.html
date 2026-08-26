@@ -3,24 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
   <title>แอ๊บแอ้</title>
 
-  <!-- 🇹🇭 ตั้งค่า Open Graph ให้ iOS Share Sheet อ่านชื่อเป็นภาษาไทย -->
+  <!-- 🇹🇭 Open Graph สำหรับ iOS Share Sheet -->
   <meta property="og:title" content="แอ๊บแอ้">
   <meta property="og:site_name" content="แอ๊บแอ้">
   <meta name="title" content="แอ๊บแอ้">
 
-  <!-- 🚀 PWA Settings: บังคับชื่อแอปเป็น แอ๊บแอ้ บน Android (Manifest Base64) -->
-  <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIiBHMOC4qOC5gOC4uOC4uiIsCiAgInNob3J0X25hbWUiOiAiIOC4qOC5gOC4uOC4uiIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZjJmMmY3IiwKICAidGhlbWVfY29sb3IiOiAiIzAwNzFlMyIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vY2RuLWljb25zLXBuZy5mbGF0aWNvbi5jb20vNTEyLzI4MDAvMjgwMDI1OC5wbmciLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   
-  <!-- 🍎 บังคับชื่อแอปเป็น แอ๊บแอ้ บน iOS (iPhone/iPad) -->
+  <!-- 🍎 ชื่อบน iOS (iPhone/iPad) -->
   <meta name="apple-mobile-web-app-title" content="แอ๊บแอ้">
   
   <meta name="theme-color" content="#0071e3">
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2800/2800258.png">
+
+  <!-- 🤖 Manifest สำหรับ Android (คลีนโค้ด แก้ Build Failed) -->
+  <link rel="manifest" href='data:application/manifest+json,{"name":"แอ๊บแอ้","short_name":"แอ๊บแอ้","start_url":".","display":"standalone","background_color":"#f2f2f7","theme_color":"#0071e3","icons":[{"src":"https://cdn-icons-png.flaticon.com/512/2800/2800258.png","sizes":"192x192","type":"image/png"}]}'>
 
   <style>
     * { box-sizing: border-box; }
@@ -46,7 +48,7 @@
   <script>
     const GAS_EXEC_URL = "https://script.google.com/macros/s/AKfycby-ApQEa-dgWIjg0KLVhQXV3PNVDk_flR4QeQgQiAenW7xoPe75M_HJhMPdj9gGftp0xg/exec";
 
-    // 🔒 ล็อคชื่อ Title ให้เป็นภาษาไทยตลอดเวลา
+    // 🔒 ล็อคชื่อ Title บนเบราว์เซอร์
     document.title = "แอ๊บแอ้";
     setInterval(function() {
       document.title = "แอ๊บแอ้";
