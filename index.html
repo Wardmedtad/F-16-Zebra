@@ -3,13 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>F16-Ceb</title>
+  <title>AB-AE</title>
 
-  <!-- 🚀 PWA Settings: บังคับหน้าจอ Standalone โหลดเป็นแอปมือถือ 100% ซ่อน URL -->
-  <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIkYxNi1DZWIiLAogICJzaG9ydF9uYW1lIjogIkYxNi1DZWIiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2YyZjJmNyIsCiAgInRoZW1lX2NvbG9yIjogIiMwMDcxZTMiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8yODAwLzI4MDAyNTgucG5nIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9CiAgXQp9">
+  <!-- 🚀 PWA Settings: บังคับชื่อแอปเป็น AB-AE บน Android (Manifest Base64) -->
+  <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIkFCLUFFIiwKICAic2hvcnRfbmFtZSI6ICJBQi1BRSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZjJmMmY3IiwKICAidGhlbWVfY29sb3IiOiAiIzAwNzFlMyIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vY2RuLWljb25zLXBuZy5mbGF0aWNvbi5jb20vNTEyLzI4MDAvMjgwMDI1OC5wbmciLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
+  <!-- 🍎 บังคับชื่อแอปเป็น AB-AE บน iOS (iPhone/iPad) -->
+  <meta name="apple-mobile-web-app-title" content="AB-AE">
+  
   <meta name="theme-color" content="#0071e3">
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2800/2800258.png">
 
@@ -22,7 +26,6 @@
       overflow: hidden;
       font-family: -apple-system, Roboto, sans-serif;
     }
-    /* ปลดล็อกให้ไอเฟรมเต็มจอ */
     iframe {
       width: 100% !important;
       height: 100% !important;
@@ -33,11 +36,9 @@
 </head>
 <body>
 
-  <!-- ดึงระบบหลัก Apps Script มาแสดงแบบเต็มจอ -->
   <iframe id="app-frame" allow="autoplay; camera; focus-without-user-activation"></iframe>
 
   <script>
-    // 🔴 ลิงก์ระบบหลักที่คุณส่งมา
     const GAS_EXEC_URL = "https://script.google.com/macros/s/AKfycby-ApQEa-dgWIjg0KLVhQXV3PNVDk_flR4QeQgQiAenW7xoPe75M_HJhMPdj9gGftp0xg/exec";
 
     window.onload = function() {
@@ -45,7 +46,6 @@
     };
 
     function loadApp() {
-      // ดึงข้อมูลสาขาที่เคยลงทะเบียนเครื่องไว้
       let savedBranch = localStorage.getItem("f16_device_branch");
       let savedStaff = localStorage.getItem("f16_device_staff");
 
@@ -53,17 +53,16 @@
       let connector = targetUrl.includes('?') ? '&' : '?';
 
       if (savedBranch) {
-        // หากเคยลงทะเบียนแล้ว ให้ข้ามหน้าเลือกสาขาอัตโนมัติ
         targetUrl += connector + "reg=true&branch=" + encodeURIComponent(savedBranch);
         if (savedStaff) {
           targetUrl += "&staff=" + encodeURIComponent(savedStaff);
         }
       }
 
-      document.getElementById("app-frame").src = targetUrl + connector + "_nocache=" + Date.now();
+      let cacheConnector = targetUrl.includes('?') ? '&' : '?';
+      document.getElementById("app-frame").src = targetUrl + cacheConnector + "_nocache=" + Date.now();
     }
 
-    // 🟢 ระบบรับคำสั่งจำค่าจาก Google Apps Script
     window.addEventListener("message", function(event) {
       if (event.data && event.data.action) {
         if (event.data.action === "save_all") {
@@ -71,7 +70,7 @@
           if (event.data.staff) localStorage.setItem("f16_device_staff", event.data.staff);
         } else if (event.data.action === "logout_staff") {
           localStorage.removeItem("f16_device_staff");
-          loadApp(); // รีเฟรชหน้าจอกลับไปรอรับรหัสพนักงานใหม่
+          loadApp();
         }
       }
     });
